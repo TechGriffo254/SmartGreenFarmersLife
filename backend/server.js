@@ -15,6 +15,13 @@ const authRoutes = require('./routes/authRoutes');
 const iotRoutes = require('./routes/iotRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const setupRoutes = require('./routes/setupRoutes');
+const aiRoutes = require('./routes/aiRoutes');
+const pestRoutes = require('./routes/pestRoutes');
+const weatherRoutes = require('./routes/weatherRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
+
+// Import services
+const dataAggregationService = require('./services/dataAggregationService');
 
 const app = express();
 const server = http.createServer(app);
@@ -136,6 +143,9 @@ mongoose.connect(process.env.MONGODB_URI, {
   console.log('✅ Connected to MongoDB successfully');
   console.log('Database:', mongoose.connection.db.databaseName);
   
+  // Start data aggregation service
+  dataAggregationService.start();
+  
   // Only start the server after MongoDB connection is established
   const PORT = process.env.PORT || 5000;
   server.listen(PORT, () => {
@@ -247,6 +257,9 @@ io.on('connection', (socket) => {
 // Make io accessible to routes
 app.set('io', io);
 
+// Serve static files for uploaded images
+app.use('/uploads', express.static('uploads'));
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/sensors', sensorRoutes);
@@ -255,13 +268,10 @@ app.use('/api/alerts', alertRoutes);
 app.use('/api/iot', iotRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/setup', setupRoutes);
-
-// Root endpoint - API welcome
-app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: '🌱 Smart Greenhouse IoT API - Successfully Deployed!',
-    version: '1.0.0',
+    message: '🌱 Smart Greenhouse Farmers Life API - Successfully Deployed!',
+    version: '2.0.0',
     status: 'Running',
     environment: process.env.NODE_ENV || 'development',
     timestamp: new Date().toISOString(),
@@ -271,6 +281,25 @@ app.get('/', (req, res) => {
       sensors: '/api/sensors',
       devices: '/api/devices',
       alerts: '/api/alerts',
+      iot: '/api/iot',
+      auth: '/api/auth',
+      settings: '/api/settings',
+      ai: '/api/ai',
+      pest: '/api/pest',
+      weather: '/api/weather',
+      analytics: '/api/analytics'
+    },
+    features: [
+      'Real-time IoT monitoring',
+      'AI farming assistant (Gemini)',
+      'Pest detection (YOLO11)',
+      'Weather forecasts & crop recommendations',
+      'Multilingual support (EN/SW)',
+      'Data aggregation & analytics'
+    ],
+    documentation: 'https://github.com/TechGriffo254/SmartGreenFarmersLife',
+    deployment: 'Local Development'
+  }); alerts: '/api/alerts',
       iot: '/api/iot',
       auth: '/api/auth',
       settings: '/api/settings'

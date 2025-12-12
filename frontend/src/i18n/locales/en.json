@@ -1,0 +1,145 @@
+{
+  "app": {
+    "name": "Smart Greenhouse Farmers Life",
+    "title": "IoT Greenhouse Management"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "devices": "Devices",
+    "sensors": "Sensors",
+    "analytics": "Analytics",
+    "aiAssistant": "AI Assistant",
+    "pestDetection": "Pest Detection",
+    "weather": "Weather",
+    "settings": "Settings",
+    "alerts": "Alerts",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "overview": "Overview",
+    "realTimeData": "Real-Time Data",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "soilMoisture": "Soil Moisture",
+    "lightIntensity": "Light Intensity",
+    "waterLevel": "Water Level",
+    "lastUpdated": "Last Updated",
+    "noData": "No data available"
+  },
+  "devices": {
+    "title": "Device Control",
+    "waterPump": "Water Pump",
+    "ventilation": "Ventilation",
+    "lights": "Lights",
+    "turnOn": "Turn On",
+    "turnOff": "Turn Off",
+    "auto": "Auto",
+    "manual": "Manual",
+    "status": "Status",
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "aiAssistant": {
+    "title": "AI Farming Assistant",
+    "greeting": "Hello! I'm your AI farming assistant. How can I help you today?",
+    "placeholder": "Ask me about crops, weather, pest control...",
+    "send": "Send",
+    "listening": "Listening...",
+    "voiceInput": "Voice Input",
+    "voiceOutput": "Voice Output",
+    "clearChat": "Clear Chat",
+    "thinking": "Thinking..."
+  },
+  "pestDetection": {
+    "title": "Pest & Disease Detection",
+    "uploadImage": "Upload Image",
+    "takePhoto": "Take Photo",
+    "analyzing": "Analyzing image...",
+    "results": "Detection Results",
+    "pest": "Pest",
+    "disease": "Disease",
+    "confidence": "Confidence",
+    "recommendation": "Recommendation",
+    "noDetection": "No pests or diseases detected",
+    "error": "Error analyzing image. Please try again."
+  },
+  "weather": {
+    "title": "Weather & Crop Recommendations",
+    "current": "Current Weather",
+    "forecast": "7-Day Forecast",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "rainfall": "Rainfall",
+    "wind": "Wind Speed",
+    "recommendations": "Crop Recommendations",
+    "bestCrops": "Best crops for current season"
+  },
+  "analytics": {
+    "title": "Analytics & Insights",
+    "last7Days": "Last 7 Days",
+    "last30Days": "Last 30 Days",
+    "custom": "Custom Range",
+    "averages": "Average Values",
+    "trends": "Trends",
+    "export": "Export Data"
+  },
+  "alerts": {
+    "title": "Alerts",
+    "active": "Active Alerts",
+    "history": "Alert History",
+    "critical": "Critical",
+    "warning": "Warning",
+    "info": "Info",
+    "markAsRead": "Mark as Read",
+    "clear": "Clear"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "english": "English",
+    "swahili": "Swahili",
+    "notifications": "Notifications",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "units": "Units",
+    "celsius": "Celsius",
+    "fahrenheit": "Fahrenheit",
+    "save": "Save Changes"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "dontHaveAccount": "Don't have an account?",
+    "signup": "Sign Up",
+    "alreadyHaveAccount": "Already have an account?"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save",
+    "back": "Back",
+    "next": "Next",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "refresh": "Refresh"
+  },
+  "messages": {
+    "dataUpdated": "Data updated successfully",
+    "deviceControlled": "Device controlled successfully",
+    "errorOccurred": "An error occurred. Please try again.",
+    "connectionLost": "Connection lost. Reconnecting...",
+    "connectionRestored": "Connection restored"
+  }
+}
