@@ -268,9 +268,16 @@ app.use('/api/alerts', alertRoutes);
 app.use('/api/iot', iotRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/setup', setupRoutes);
+app.use('/api/ai', aiRoutes);
+app.use('/api/pest', pestRoutes);
+app.use('/api/weather', weatherRoutes);
+app.use('/api/analytics', analyticsRoutes);
+
+// API Info endpoint
+app.get('/api', (req, res) => {
   res.json({
     success: true,
-    message: '🌱 Smart Greenhouse Farmers Life API - Successfully Deployed!',
+    message: 'Smart Greenhouse Farmers Life API - Successfully Deployed!',
     version: '2.0.0',
     status: 'Running',
     environment: process.env.NODE_ENV || 'development',
@@ -299,13 +306,6 @@ app.use('/api/setup', setupRoutes);
     ],
     documentation: 'https://github.com/TechGriffo254/SmartGreenFarmersLife',
     deployment: 'Local Development'
-  }); alerts: '/api/alerts',
-      iot: '/api/iot',
-      auth: '/api/auth',
-      settings: '/api/settings'
-    },
-    documentation: 'https://github.com/TechGriffo254/IotSmartGreenHouseProject',
-    deployment: 'Koyeb Cloud Platform'
   });
 });
 

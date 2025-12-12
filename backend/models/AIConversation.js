@@ -49,7 +49,7 @@ const aiConversationSchema = new mongoose.Schema({
   }
 });
 
-pestDetectionSchema.index({ userId: 1, sessionId: 1 });
+aiConversationSchema.index({ userId: 1, sessionId: 1 });
 aiConversationSchema.index({ userId: 1, createdAt: -1 });
 
 module.exports = mongoose.model('AIConversation', aiConversationSchema);

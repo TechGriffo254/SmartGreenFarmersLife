@@ -126,3 +126,6 @@ exports.checkGreenhouseAccess = (requiredPermissions = ['read']) => {
     }
   };
 };
+
+// Alias for backward compatibility
+exports.protect = exports.auth;
