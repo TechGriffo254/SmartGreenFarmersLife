@@ -4,7 +4,25 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      jsxRuntime: 'automatic',
+      include: '**/*.{jsx,js,tsx,ts}',
+    }),
+  ],
+  esbuild: {
+    loader: 'jsx',
+    include: /.*\.jsx?$/,
+    exclude: [],
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+    esbuildOptions: {
+      loader: {
+        '.js': 'jsx',
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -37,8 +55,5 @@ export default defineConfig({
         },
       },
     },
-  },
-  optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
   },
 });

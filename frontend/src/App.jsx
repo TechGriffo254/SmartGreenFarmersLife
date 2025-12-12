@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import Login from './components/auth/Login';
-import Dashboard from './components/Dashboard/Dashboard';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import { SocketProvider } from './context/SocketContext';
-import LoadingSpinner from './components/common/LoadingSpinner';
-import PullToRefresh from './components/common/PullToRefresh';
+import Login from './components/auth/Login.jsx';
+import Dashboard from './components/Dashboard/Dashboard.jsx';
+import { AuthProvider, useAuth } from './context/AuthContext.jsx';
+import { SocketProvider } from './context/SocketContext.jsx';
+import LoadingSpinner from './components/common/LoadingSpinner.jsx';
+import PullToRefresh from './components/common/PullToRefresh.jsx';
 import './App.css';
 
 function AppRoutes() {
