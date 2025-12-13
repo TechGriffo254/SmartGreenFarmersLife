@@ -8,6 +8,9 @@ import DeviceControl from './DeviceControl';
 import AlertSystem from './AlertSystem';
 import Analytics from './Analytics';
 import Settings from './Settings';
+import FarmerChat from '../AI/FarmerChat';
+import PestDetection from '../PestDetection/PestDetection';
+import WeatherAdvisor from './WeatherAdvisor';
 import { useSocket } from '../../context/SocketContext';
 import api from '../../services/api';
 
@@ -81,6 +84,9 @@ const Dashboard = () => {
             <Route path="/" element={<Overview />} />
             <Route path="/sensors" element={<SensorMonitoring />} />
             <Route path="/devices" element={<DeviceControl />} />
+            <Route path="/ai-chat" element={<FarmerChat />} />
+            <Route path="/pest-scanner" element={<PestDetection />} />
+            <Route path="/weather" element={<WeatherAdvisor />} />
             <Route path="/alerts" element={<AlertSystem />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/settings" element={<Settings />} />

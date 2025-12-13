@@ -1,111 +1,150 @@
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Camera, Upload, X, AlertCircle } from 'lucide-react';
-import Webcam from 'react-webcam';
-import axios from 'axios';
+import { Camera, Upload, X, AlertCircle, Loader, RefreshCw } from 'lucide-react';
+import api from '../../services/api';
 import toast from 'react-hot-toast';
 
 const PestDetection = () => {
   const { t, i18n } = useTranslation();
-  const [showCamera, setShowCamera] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState(null);
+  const [remedy, setRemedy] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const webcamRef = useRef(null);
+  const [loadingRemedy, setLoadingRemedy] = useState(false);
   const fileInputRef = useRef(null);
+  const canvasRef = useRef(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
-  const capturePhoto = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setImagePreview(imageSrc);
-    setShowCamera(false);
-    
-    // Convert base64 to blob
-    fetch(imageSrc)
-      .then(res => res.blob())
-      .then(blob => {
-        const file = new File([blob], 'capture.jpg', { type: 'image/jpeg' });
-        analyzeImage(file);
-      });
-  };
+  const language = i18n.language || 'sw';
+  const isSwahili = language === 'sw';
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error(isSwahili ? 'Picha ni kubwa sana (max 5MB)' : 'Image too large (max 5MB)');
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
+        analyzeImage(reader.result);
       };
       reader.readAsDataURL(file);
-      analyzeImage(file);
     }
   };
 
-  const analyzeImage = async (file) => {
+  const analyzeImage = async (base64Image) => {
     setAnalyzing(true);
     setResult(null);
+    setRemedy(null);
 
     try {
-      const token = localStorage.getItem('token');
       const formData = new FormData();
       formData.append('image', file);
       formData.append('language', i18n.language);
 
-      const response = await axios.post(
-        `${API_URL}/api/pest/detect`,
-        formData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
+      const response = await api.post('/pest/detect', {
+        imageBase64: base64Image
+      });
+
+      if (response.data.success) {
+        setResult(response.data.data);
+        
+        if (response.data.data.detections.length === 0) {
+          toast.success(isSwahili ? 'Hakuna wadudu waliogundulika' : 'No pests detected');
+        } else {
+          toast.success(isSwahili ? 'Wadudu wamegundulika!' : 'Pests detected!');
+          
+          // Auto-fetch remedy for detected diseases
+          const diseaseLabels = response.data.data.detections
+            .filter(d => d.diseaseType === 'disease')
+            .map(d => d.label);
+          
+          if (diseaseLabels.length > 0) {
+            fetchRemedy(diseaseLabels);
           }
         }
-      );
-
-      setResult(response.data);
-      
-      if (response.data.detections.length === 0) {
-        toast.success(t('pestDetection.noDetection'));
-      } else {
-        toast.success(t('common.success'));
       }
     } catch (error) {
       console.error('Pest detection error:', error);
-      toast.error(t('pestDetection.error'));
+      
+      if (error.response?.status === 503) {
+        toast.error(isSwahili 
+          ? 'Model inapakia, jaribu tena baada ya sekunde 20' 
+          : 'Model loading, retry in 20 seconds'
+        );
+      } else {
+        toast.error(isSwahili ? 'Hitilafu katika kugundua wadudu' : 'Pest detection failed');
+      }
+      
       setResult({ error: true, message: error.response?.data?.message || error.message });
     } finally {
       setAnalyzing(false);
     }
   };
 
+  const fetchRemedy = async (pestLabels) => {
+    setLoadingRemedy(true);
+    try {
+      const response = await api.post('/ai/pest-remedy', {
+        pestLabels,
+        language
+      });
+
+      if (response.data.success) {
+        setRemedy(response.data.data.remedy);
+      }
+    } catch (error) {
+      console.error('Remedy fetch error:', error);
+    } finally {
+      setLoadingRemedy(false);
+    }
+  };
+
   const reset = () => {
     setImagePreview(null);
     setResult(null);
-    setShowCamera(false);
+    setRemedy(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-green-600 to-green-700 p-6 text-white">
-          <h1 className="text-3xl font-bold">{t('pestDetection.title')}</h1>
+          <h1 className="text-3xl font-bold">
+            {isSwahili ? '🔬 Kigundua Wadudu' : '🔬 Pest Scanner'}
+          </h1>
           <p className="mt-2 text-green-100">
-            {t('nav.pestDetection')} - AI-powered YOLO11
+            {isSwahili 
+              ? 'Piga picha ya mmea kugundua magonjwa na wadudu' 
+              : 'Capture plant image to detect diseases and pests'}
           </p>
         </div>
 
         <div className="p-6">
-          {/* Upload/Capture Buttons */}
-          {!imagePreview && !showCamera && (
-            <div className="grid md:grid-cols-2 gap-4 mb-6">
+          {/* Upload Button */}
+          {!imagePreview && (
+            <div className="mb-6">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="hidden"
+                capture="environment"
+              />
               <button
-                onClick={() => setShowCamera(true)}
-                className="flex items-center justify-center gap-3 p-8 border-2 border-dashed border-green-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full flex items-center justify-center gap-3 p-8 border-2 border-dashed border-green-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition"
               >
-                <Camera size={32} className="text-green-600" />
-                <span className="text-lg font-medium">{t('pestDetection.takePhoto')}</span>
+                <Upload size={32} className="text-green-600" />
+                <span className="text-lg font-medium">
+                  {isSwahili ? 'Pakia au Piga Picha' : 'Upload or Capture Photo'}
               </button>
               
               <button
@@ -185,11 +224,24 @@ const PestDetection = () => {
           {/* Results */}
           {result && !result.error && result.detections && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-800">{t('pestDetection.results')}</h2>
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  {isSwahili ? 'Matokeo' : 'Results'}
+                </h2>
+                <button
+                  onClick={reset}
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+                >
+                  <RefreshCw size={16} />
+                  {isSwahili ? 'Jaribu Tena' : 'Try Again'}
+                </button>
+              </div>
               
               {result.detections.length === 0 ? (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-                  <p className="text-lg text-green-800">{t('pestDetection.noDetection')}</p>
+                  <p className="text-lg text-green-800">
+                    {isSwahili ? '✅ Mmea ni mzima!' : '✅ Plant appears healthy!'}
+                  </p>
                 </div>
               ) : (
                 <>
@@ -198,50 +250,57 @@ const PestDetection = () => {
                     {result.detections.map((detection, index) => (
                       <div
                         key={index}
-                        className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-lg p-4"
+                        className={`rounded-lg p-4 border-2 ${
+                          detection.diseaseType === 'healthy'
+                            ? 'bg-green-50 border-green-300'
+                            : 'bg-red-50 border-red-300'
+                        }`}
                       >
                         <div className="flex justify-between items-start">
-                          <div>
+                          <div className="flex-1">
                             <h3 className="text-lg font-bold text-gray-800">
-                              🐛 {detection.label}
+                              {detection.diseaseType === 'healthy' ? '✅' : '⚠️'} {detection.label}
                             </h3>
-                            <p className="text-sm text-gray-600">
-                              {t('pestDetection.confidence')}: {(detection.confidence * 100).toFixed(1)}%
+                            <p className="text-sm text-gray-600 mt-1">
+                              {isSwahili ? 'Uhakika' : 'Confidence'}: {detection.confidence}%
                             </p>
                           </div>
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                            detection.confidence > 0.8
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            detection.confidence > 80
                               ? 'bg-red-600 text-white'
-                              : detection.confidence > 0.6
+                              : detection.confidence > 60
                               ? 'bg-orange-600 text-white'
                               : 'bg-yellow-600 text-white'
                           }`}>
-                            {detection.confidence > 0.8 ? t('alerts.critical') : 
-                             detection.confidence > 0.6 ? t('alerts.warning') : 
-                             t('alerts.info')}
+                            {detection.confidence > 80 ? (isSwahili ? 'Juu' : 'High') : 
+                             detection.confidence > 60 ? (isSwahili ? 'Wastani' : 'Medium') : 
+                             (isSwahili ? 'Chini' : 'Low')}
                           </span>
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  {/* AI Recommendation */}
-                  {result.recommendation && (
+                  {/* AI Remedy */}
+                  {loadingRemedy ? (
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 flex items-center gap-3">
+                      <Loader className="animate-spin" size={20} />
+                      <span>{isSwahili ? 'Inatafuta dawa...' : 'Fetching remedy...'}</span>
+                    </div>
+                  ) : remedy ? (
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
                       <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
                         <AlertCircle className="text-blue-600" />
-                        {t('pestDetection.recommendation')}
+                        {isSwahili ? '💊 Dawa Zinazopendekeza' : '💊 Recommended Remedy'}
                       </h3>
-                      <div className="prose max-w-none">
-                        <p className="text-gray-700 whitespace-pre-wrap">{result.recommendation}</p>
-                      </div>
+                      <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{remedy}</p>
                     </div>
-                  )}
+                  ) : null}
 
-                  {/* Processing Info */}
-                  <div className="text-sm text-gray-500 text-center">
-                    <p>Model: {result.modelUsed}</p>
-                    <p>Processing time: {(result.processingTime / 1000).toFixed(2)}s</p>
+                  {/* Info */}
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm text-gray-600">
+                    <p>📊 {result.totalFound} {isSwahili ? 'wamegundulika' : 'detected'}</p>
+                    <p className="mt-1">🕐 {new Date(result.timestamp).toLocaleString()}</p>
                   </div>
                 </>
               )}
@@ -251,7 +310,15 @@ const PestDetection = () => {
           {/* Error */}
           {result && result.error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-              <p className="text-red-800">{result.message}</p>
+              <div className="flex items-center gap-3">
+                <AlertCircle className="text-red-600" size={24} />
+                <div>
+                  <h3 className="text-lg font-bold text-red-800">
+                    {isSwahili ? 'Hitilafu' : 'Error'}
+                  </h3>
+                  <p className="text-red-700 mt-1">{result.message}</p>
+                </div>
+              </div>
             </div>
           )}
         </div>

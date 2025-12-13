@@ -8,7 +8,10 @@ import {
   BarChart3, 
   Cpu,
   Leaf,
-  X
+  X,
+  MessageCircle,
+  Bug,
+  CloudSun
 } from 'lucide-react';
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -16,6 +19,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     { name: 'Overview', href: '/dashboard', icon: Home },
     { name: 'Sensor Monitoring', href: '/dashboard/sensors', icon: Activity },
     { name: 'Device Control', href: '/dashboard/devices', icon: Cpu },
+    { name: 'AI Agronomist', href: '/dashboard/ai-chat', icon: MessageCircle },
+    { name: 'Pest Scanner', href: '/dashboard/pest-scanner', icon: Bug },
+    { name: 'Weather Advisor', href: '/dashboard/weather', icon: CloudSun },
     { name: 'Alert System', href: '/dashboard/alerts', icon: AlertTriangle },
     { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
     { name: 'Settings', href: '/dashboard/settings', icon: SettingsIcon },

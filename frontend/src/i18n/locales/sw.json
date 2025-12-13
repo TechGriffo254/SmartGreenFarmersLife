@@ -49,7 +49,15 @@
     "voiceInput": "Ingizo la Sauti",
     "voiceOutput": "Matokeo ya Sauti",
     "clearChat": "Futa Mazungumzo",
-    "thinking": "Ninafikiria..."
+    "thinking": "Ninafikiria...",
+    "agronomist": "Mshauri wa Kilimo",
+    "askQuestion": "Uliza swali lolote kuhusu kilimo",
+    "welcome": "Karibu! Uliza swali lako",
+    "typeMessage": "Andika ujumbe...",
+    "typing": "Inaandika...",
+    "clear": "Futa",
+    "muteVoice": "Zima sauti",
+    "enableVoice": "Washa sauti"
   },
   "pestDetection": {
     "title": "Utambuzi wa Wadudu na Magonjwa",
@@ -61,8 +69,15 @@
     "disease": "Ugonjwa",
     "confidence": "Uhakika",
     "recommendation": "Mapendekezo",
+    "remedy": "Dawa",
     "noDetection": "Hakuna wadudu au magonjwa yaliyogunduliwa",
-    "error": "Hitilafu katika uchambuzi wa picha. Tafadhali jaribu tena."
+    "error": "Hitilafu katika uchambuzi wa picha. Tafadhali jaribu tena.",
+    "uploadOrCapture": "Pakia au Piga Picha",
+    "tryAgain": "Jaribu Tena",
+    "detected": "Wamegundulika",
+    "healthy": "Mzima",
+    "fetchingRemedy": "Inatafuta dawa...",
+    "recommendedRemedy": "Dawa Zinazopendekeza"
   },
   "weather": {
     "title": "Hali ya Hewa na Mapendekezo ya Mazao",
@@ -72,8 +87,24 @@
     "humidity": "Unyevu",
     "rainfall": "Mvua",
     "wind": "Kasi ya Upepo",
+    "windSpeed": "Kasi ya Upepo",
     "recommendations": "Mapendekezo ya Mazao",
-    "bestCrops": "Mazao bora kwa msimu wa sasa"
+    "bestCrops": "Mazao bora kwa msimu wa sasa",
+    "advisor": "Mshauri wa Hali ya Hewa",
+    "selectCrop": "Chagua Zao",
+    "getAdvice": "Pata Ushauri",
+    "gettingAdvice": "Inapata ushauri...",
+    "farmingAdvice": "Ushauri wa Kilimo",
+    "refresh": "Sasisha",
+    "loading": "Inapakia hali ya hewa...",
+    "clickRefresh": "Bonyeza \"Sasisha\" kupata hali ya hewa",
+    "avgTemp": "Joto Wastani",
+    "totalRain": "Mvua Jumla",
+    "avgHumidity": "Unyevu Wastani",
+    "crop": "Zao",
+    "weatherLoaded": "Hali ya hewa imepakiwa",
+    "weatherFailed": "Imeshindwa kupata hali ya hewa",
+    "adviceFailed": "Imeshindwa kupata ushauri"
   },
   "analytics": {
     "title": "Uchambuzi na Maarifa",

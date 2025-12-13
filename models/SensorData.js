@@ -9,7 +9,7 @@ const sensorDataSchema = new mongoose.Schema({
   sensorType: {
     type: String,
     required: true,
-    enum: ['DHT11', 'LDR', 'SOIL_MOISTURE', 'ULTRASONIC']
+    enum: ['DHT11', 'LDR', 'SOIL_MOISTURE', 'ULTRASONIC', 'telemetry']
   },
   // DHT11 sensor data
   temperature: {

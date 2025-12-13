@@ -15,6 +15,10 @@ const authRoutes = require('./routes/authRoutes');
 const iotRoutes = require('./routes/iotRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const setupRoutes = require('./routes/setupRoutes');
+const telemetryRoutes = require('./routes/telemetryRoutes');
+const aiRoutes = require('./routes/aiRoutes');
+const pestRoutes = require('./routes/pestRoutes');
+const weatherRoutes = require('./routes/weatherRoutes');
 
 const app = express();
 const server = http.createServer(app);
@@ -98,6 +102,10 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => {
   console.log('✅ Connected to MongoDB successfully');
   console.log('Database:', mongoose.connection.db.databaseName);
+  
+  // Start telemetry aggregation service
+  const aggregationService = require('./services/telemetryAggregationService');
+  aggregationService.start();
   
   // Only start the server after MongoDB connection is established
   const PORT = process.env.PORT || 5000;
@@ -218,6 +226,10 @@ app.use('/api/alerts', alertRoutes);
 app.use('/api/iot', iotRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/setup', setupRoutes);
+app.use('/api', telemetryRoutes);
+app.use('/api/ai', aiRoutes);
+app.use('/api/pest', pestRoutes);
+app.use('/api/weather', weatherRoutes);
 
 // Root endpoint - API welcome
 app.get('/', (req, res) => {
