@@ -2,51 +2,63 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Login from './components/auth/Login.jsx';
-import Dashboard from './components/Dashboard/Dashboard.jsx';
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import { SocketProvider } from './context/SocketContext.jsx';
-import LoadingSpinner from './components/common/LoadingSpinner.jsx';
-import PullToRefresh from './components/common/PullToRefresh.jsx';
 import './App.css';
+
+// Lazy load Dashboard to catch errors
+const Dashboard = React.lazy(() => import('./components/Dashboard/Dashboard.jsx'));
 
 function AppRoutes() {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-green-100">
+        <div className="loading-spinner"></div>
+      </div>
+    );
   }
 
-  const routeElement = (
+  return (
     <Routes>
       <Route 
         path="/login" 
-        element={user ? <Navigate to="/dashboard" /> : <Login />} 
+        element={user ? <Navigate to="/dashboard" replace /> : <Login />} 
       />
       <Route 
         path="/dashboard/*" 
-        element={user ? <Dashboard /> : <Navigate to="/login" />} 
+        element={
+          user ? (
+            <React.Suspense fallback={
+              <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="text-center">
+                  <div className="loading-spinner"></div>
+                  <p className="mt-4 text-gray-600">Loading dashboard...</p>
+                </div>
+              </div>
+            }>
+              <Dashboard />
+            </React.Suspense>
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        } 
       />
       <Route 
         path="/" 
-        element={<Navigate to={user ? "/dashboard" : "/login"} />} 
+        element={<Navigate to={user ? "/dashboard" : "/login"} replace />} 
       />
     </Routes>
   );
-
-  // Wrap the authenticated routes with PullToRefresh
-  return user ? (
-    <PullToRefresh>
-      {routeElement}
-    </PullToRefresh>
-  ) : routeElement;
 }
 
 function App() {
   return (
-    <div className="App">
-      <AuthProvider>
-        <Router>
-          <SocketProvider>
+    <AuthProvider>
+      <Router>
+        <SocketProvider>
+          <div className="App">
             <AppRoutes />
             <Toaster 
               position="top-right"
@@ -68,10 +80,10 @@ function App() {
                 },
               }}
             />
-          </SocketProvider>
-        </Router>
-      </AuthProvider>
-    </div>
+          </div>
+        </SocketProvider>
+      </Router>
+    </AuthProvider>
   );
 }
 

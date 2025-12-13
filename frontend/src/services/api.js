@@ -2,13 +2,12 @@ import axios from 'axios';
 
 // Get API URL from environment with fallback
 const getAPIUrl = () => {
-  // For Vercel deployment - check multiple environment variable patterns
-  const apiUrl = process.env.REACT_APP_API_URL || 
-                 process.env.NEXT_PUBLIC_API_URL ||
-                 'https://open-lauryn-ina-9662925b.koyeb.app/api';
+  // For Vite - use import.meta.env
+  const apiUrl = import.meta.env.VITE_API_URL || 
+                 import.meta.env.VITE_APP_API_URL ||
+                 'http://localhost:5000';
   
-  console.log('🔗 Environment:', process.env.NODE_ENV);
-  console.log('🔗 All env vars:', Object.keys(process.env).filter(key => key.startsWith('REACT_APP')));
+  console.log('🔗 Environment:', import.meta.env.MODE);
   console.log('🔗 API URL:', apiUrl);
   
   return apiUrl;

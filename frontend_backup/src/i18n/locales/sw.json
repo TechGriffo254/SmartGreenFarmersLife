@@ -1,0 +1,145 @@
+{
+  "app": {
+    "name": "Kilimo Mahiri cha Wakulima",
+    "title": "Usimamizi wa Greenhouse ya IoT"
+  },
+  "nav": {
+    "dashboard": "Dashibodi",
+    "devices": "Vifaa",
+    "sensors": "Vihisi",
+    "analytics": "Uchambuzi",
+    "aiAssistant": "Msaidizi wa AI",
+    "pestDetection": "Utambuzi wa Wadudu",
+    "weather": "Hali ya Hewa",
+    "settings": "Mipangilio",
+    "alerts": "Tahadhari",
+    "profile": "Wasifu",
+    "logout": "Toka"
+  },
+  "dashboard": {
+    "overview": "Muhtasari",
+    "realTimeData": "Data ya Wakati Halisi",
+    "temperature": "Joto",
+    "humidity": "Unyevu",
+    "soilMoisture": "Unyevu wa Udongo",
+    "lightIntensity": "Nguvu ya Mwanga",
+    "waterLevel": "Kiwango cha Maji",
+    "lastUpdated": "Imesasishwa Mwisho",
+    "noData": "Hakuna data inayopatikana"
+  },
+  "devices": {
+    "title": "Udhibiti wa Vifaa",
+    "waterPump": "Pampu ya Maji",
+    "ventilation": "Uingizaji Hewa",
+    "lights": "Taa",
+    "turnOn": "Washa",
+    "turnOff": "Zima",
+    "auto": "Kiotomatiki",
+    "manual": "Mwongozo",
+    "status": "Hali",
+    "online": "Mtandaoni",
+    "offline": "Nje ya Mtandao"
+  },
+  "aiAssistant": {
+    "title": "Msaidizi wa Kilimo wa AI",
+    "greeting": "Habari! Mimi ni msaidizi wako wa kilimo wa AI. Ninaweza kukusaidia vipi leo?",
+    "placeholder": "Niulize kuhusu mazao, hali ya hewa, udhibiti wa wadudu...",
+    "send": "Tuma",
+    "listening": "Sikiliza...",
+    "voiceInput": "Ingizo la Sauti",
+    "voiceOutput": "Matokeo ya Sauti",
+    "clearChat": "Futa Mazungumzo",
+    "thinking": "Ninafikiria..."
+  },
+  "pestDetection": {
+    "title": "Utambuzi wa Wadudu na Magonjwa",
+    "uploadImage": "Pakia Picha",
+    "takePhoto": "Chukua Picha",
+    "analyzing": "Inachambuza picha...",
+    "results": "Matokeo ya Utambuzi",
+    "pest": "Mdudu",
+    "disease": "Ugonjwa",
+    "confidence": "Uhakika",
+    "recommendation": "Mapendekezo",
+    "noDetection": "Hakuna wadudu au magonjwa yaliyogunduliwa",
+    "error": "Hitilafu katika uchambuzi wa picha. Tafadhali jaribu tena."
+  },
+  "weather": {
+    "title": "Hali ya Hewa na Mapendekezo ya Mazao",
+    "current": "Hali ya Hewa ya Sasa",
+    "forecast": "Utabiri wa Siku 7",
+    "temperature": "Joto",
+    "humidity": "Unyevu",
+    "rainfall": "Mvua",
+    "wind": "Kasi ya Upepo",
+    "recommendations": "Mapendekezo ya Mazao",
+    "bestCrops": "Mazao bora kwa msimu wa sasa"
+  },
+  "analytics": {
+    "title": "Uchambuzi na Maarifa",
+    "last7Days": "Siku 7 Zilizopita",
+    "last30Days": "Siku 30 Zilizopita",
+    "custom": "Muda Maalum",
+    "averages": "Wastani wa Thamani",
+    "trends": "Mwelekeo",
+    "export": "Hamisha Data"
+  },
+  "alerts": {
+    "title": "Tahadhari",
+    "active": "Tahadhari za Sasa",
+    "history": "Historia ya Tahadhari",
+    "critical": "Muhimu Sana",
+    "warning": "Onyo",
+    "info": "Taarifa",
+    "markAsRead": "Weka kama Imesomwa",
+    "clear": "Futa"
+  },
+  "settings": {
+    "title": "Mipangilio",
+    "language": "Lugha",
+    "english": "Kiingereza",
+    "swahili": "Kiswahili",
+    "notifications": "Arifa",
+    "theme": "Mandhari",
+    "light": "Mwangaza",
+    "dark": "Giza",
+    "units": "Vitengo",
+    "celsius": "Celsius",
+    "fahrenheit": "Fahrenheit",
+    "save": "Hifadhi Mabadiliko"
+  },
+  "auth": {
+    "login": "Ingia",
+    "logout": "Toka",
+    "email": "Barua Pepe",
+    "password": "Nenosiri",
+    "forgotPassword": "Umesahau Nenosiri?",
+    "dontHaveAccount": "Huna akaunti?",
+    "signup": "Jisajili",
+    "alreadyHaveAccount": "Una akaunti tayari?"
+  },
+  "common": {
+    "loading": "Inapakia...",
+    "error": "Hitilafu",
+    "success": "Imefanikiwa",
+    "cancel": "Ghairi",
+    "confirm": "Thibitisha",
+    "delete": "Futa",
+    "edit": "Hariri",
+    "save": "Hifadhi",
+    "back": "Rudi",
+    "next": "Ifuatayo",
+    "close": "Funga",
+    "search": "Tafuta",
+    "filter": "Chuja",
+    "reset": "Weka Upya",
+    "refresh": "Onyesha Upya"
+  },
+  "messages": {
+    "dataUpdated": "Data imesasishwa kwa mafanikio",
+    "deviceControlled": "Kifaa kimedhibitiwa kwa mafanikio",
+    "errorOccurred": "Hitilafu imetokea. Tafadhali jaribu tena.",
+    "connectionLost": "Muunganisho umepotea. Inaunganisha tena...",
+    "connectionRestored": "Muunganisho umerejelezwa"
+  }
+}

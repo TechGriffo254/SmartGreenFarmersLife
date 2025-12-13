@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Leaf, Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -21,12 +23,18 @@ const Login = () => {
 
     try {
       if (isLogin) {
-        await login({
+        const result = await login({
           username: formData.username,
           password: formData.password
         });
+        if (result.success) {
+          navigate('/dashboard');
+        }
       } else {
-        await register(formData);
+        const result = await register(formData);
+        if (result.success) {
+          navigate('/dashboard');
+        }
       }
     } catch (error) {
       console.error('Auth error:', error);
@@ -43,20 +51,20 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-400 to-blue-600 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
-        <div className="bg-white rounded-xl shadow-2xl p-8">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 border-2 border-green-100">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
-              <div className="bg-green-100 p-3 rounded-full">
-                <Leaf className="h-8 w-8 text-green-600" />
+              <div className="bg-gradient-to-br from-green-400 to-green-600 p-4 rounded-full shadow-lg">
+                <Leaf className="h-10 w-10 text-white" />
               </div>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">
-              Smart Greenhouse
+            <h2 className="text-3xl font-bold text-gray-900 mb-1">
+              Smart Green Farmers Life
             </h2>
-            <p className="text-gray-600 mt-2">
+            <p className="text-gray-600 text-sm">
               {isLogin ? 'Sign in to your account' : 'Create your account'}
             </p>
           </div>
@@ -178,11 +186,11 @@ const Login = () => {
           </form>
 
           {/* Demo Credentials */}
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <p className="text-xs text-gray-600 text-center mb-2">Demo Credentials:</p>
-            <p className="text-xs text-gray-500 text-center">
-              Username: <span className="font-mono">admin</span> | 
-              Password: <span className="font-mono">admin123</span>
+          <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
+            <p className="text-xs text-green-700 font-semibold text-center mb-2">Demo Credentials:</p>
+            <p className="text-xs text-gray-700 text-center">
+              Username: <span className="font-mono text-green-600 font-bold">admin</span> | 
+              Password: <span className="font-mono text-green-600 font-bold">admin123</span>
             </p>
           </div>
         </div>

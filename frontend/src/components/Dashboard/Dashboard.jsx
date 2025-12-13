@@ -9,7 +9,7 @@ import AlertSystem from './AlertSystem';
 import Analytics from './Analytics';
 import Settings from './Settings';
 import { useSocket } from '../../context/SocketContext';
-import axios from 'axios';
+import api from '../../services/api';
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -21,9 +21,10 @@ const Dashboard = () => {
     const loadInitialData = async () => {
       try {
         setLoading(true);
+        console.log('📊 Loading dashboard data...');
         
         // Load latest sensor data
-        const sensorResponse = await axios.get('/api/sensors/latest/greenhouse-001');
+        const sensorResponse = await api.get('/api/sensors/latest/greenhouse-001');
         if (sensorResponse.data.success) {
           const sensorMap = {};
           sensorResponse.data.data.forEach(sensor => {
@@ -33,19 +34,20 @@ const Dashboard = () => {
         }
 
         // Load devices
-        const deviceResponse = await axios.get('/api/devices/greenhouse-001');
+        const deviceResponse = await api.get('/api/devices/greenhouse-001');
         if (deviceResponse.data.success) {
           setDevices(deviceResponse.data.data);
         }
 
         // Load active alerts
-        const alertResponse = await axios.get('/api/alerts/active/greenhouse-001');
+        const alertResponse = await api.get('/api/alerts/active/greenhouse-001');
         if (alertResponse.data.success) {
           setAlerts(alertResponse.data.data);
         }
 
       } catch (error) {
         console.error('Error loading initial data:', error);
+        // Don't block dashboard if data fails to load
       } finally {
         setLoading(false);
       }
